@@ -28,7 +28,7 @@ public class UserController {
 		try {
 			return modelMapper.map(userService.createUser(user), UserDto.class);
 		} catch (Exception ex) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
 		}
 	}
 

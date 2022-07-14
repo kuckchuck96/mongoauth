@@ -1,14 +1,18 @@
 package com.service.mongoauth.model;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Document
 @Data
+@ToString
 public class User {
 
 	@Id
@@ -24,5 +28,7 @@ public class User {
 	private String password;
 	private String[] roles = { "USER" };
 	private boolean isVerified = false;
+	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
 }
