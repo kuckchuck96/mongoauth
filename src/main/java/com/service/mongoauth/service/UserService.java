@@ -8,4 +8,6 @@ public interface UserService {
 
 	public User getUser(String email, String password) throws Exception;
 
+	public void removeUnverifiedOldUsers() throws Exception;
+
 }

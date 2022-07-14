@@ -1,5 +1,6 @@
 package com.service.mongoauth.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -45,6 +46,15 @@ public class UserServiceImpl implements UserService {
 		final User user = Optional.ofNullable(userRepository.findByEmailAndPassword(email, password))
 				.orElseThrow(() -> new Exception(String.format("Unable to find the user with email: %s.", email)));
 		return user;
+	}
+
+	@Override
+	public void removeUnverifiedOldUsers() throws Exception {
+		Optional.ofNullable(userRepository.findByisVerifiedAndUpdatedAt(LocalDateTime.now().minusDays(30L)))
+				.ifPresent(users -> {
+					LOGGER.info(String.format("Total users removed: %d.", users.size()));
+					userRepository.deleteAll(users);
+				});
 	}
 
 }
