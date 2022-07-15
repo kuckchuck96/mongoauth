@@ -2,6 +2,7 @@ package com.service.mongoauth.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,6 +41,9 @@ public class JwtAuthenticationController {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Value("${verify.email}")
+	private boolean verifyEmail;
+
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -52,7 +56,11 @@ public class JwtAuthenticationController {
 		final UserDto userDto = modelMapper
 				.map(userService.getUser(userDetails.getUsername(), userDetails.getPassword()), UserDto.class);
 
-		return userDto.isVerified() ? ResponseEntity.ok(new JwtResponse(userDto, token))
+		if (!verifyEmail) {
+			return ResponseEntity.ok(new JwtResponse(userDto, token));
+		}
+
+		return userDto.isVerified() && verifyEmail ? ResponseEntity.ok(new JwtResponse(userDto, token))
 				: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Kindly verify your email.");
 	}
 
