@@ -11,3 +11,6 @@ jwt:
 cron:
   exp:
     remusers: ${REM_USERS_CRON_EXP}
+    
+verify:
+  email: ${VERIFY_EMAIL}
