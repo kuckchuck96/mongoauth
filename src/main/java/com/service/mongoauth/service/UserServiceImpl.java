@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
+import com.service.mongoauth.exception.UserAlreadyExistsException;
 import com.service.mongoauth.model.User;
 import com.service.mongoauth.repository.UserRepository;
 
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		if (Optional.ofNullable(userRepository.findByEmail(user.getEmail())).isPresent()) {
-			throw new Exception(
+			throw new UserAlreadyExistsException(
 					String.format("User already exists with %s. Please try using a different email.", user.getEmail()));
 		}
 

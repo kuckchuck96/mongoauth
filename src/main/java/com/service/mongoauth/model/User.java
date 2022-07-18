@@ -2,8 +2,10 @@ package com.service.mongoauth.model;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,12 +21,14 @@ public class User {
 	private String id;
 
 	@NotBlank(message = "Email is a required attribute.")
+	@Email(message = "Email should be valid.")
 	private String email;
 
 	@NotBlank(message = "Name is a required attribute.")
 	private String name;
 
 	@NotBlank(message = "Password is a required attribute.")
+	@Length(min = 6, max = 18, message = "Password must be between 6 to 18 characters long.")
 	private String password;
 	private String[] roles = { "USER" };
 	private boolean isVerified = false;
