@@ -28,7 +28,7 @@ public class User {
 	private String name;
 
 	@NotBlank(message = "Password is a required attribute.")
-	@Length(min = 6, max = 18, message = "Password must be between 6 to 18 characters long.")
+	@Length(min = 6, message = "Password must be minimum 6 characters long.")
 	private String password;
 	private String[] roles = { "USER" };
 	private boolean isVerified = false;

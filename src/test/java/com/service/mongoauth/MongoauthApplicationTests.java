@@ -26,16 +26,6 @@ class MongoauthApplicationTests {
 	private String root_url = "http://localhost:%d";
 
 	@Test
-	void testUserAuthentication() {
-		User user = new User();
-		user.setEmail("test12345@example.com");
-		user.setPassword("test12345");
-
-		assertEquals(testRestTemplate.postForEntity(getUrl("authenticate"), user, JwtResponse.class).getStatusCode(),
-				HttpStatus.OK);
-	}
-
-	@Test
 	void testUserCreation() {
 		User user = new User();
 		user.setEmail("test12345@example.com");
@@ -43,6 +33,16 @@ class MongoauthApplicationTests {
 		user.setName("John Doe");
 
 		assertEquals(testRestTemplate.postForEntity(getUrl("user/createUser"), user, UserDto.class).getStatusCode(),
+				HttpStatus.OK);
+	}
+
+	@Test
+	void testUserAuthentication() {
+		User user = new User();
+		user.setEmail("test12345@example.com");
+		user.setPassword("test12345");
+
+		assertEquals(testRestTemplate.postForEntity(getUrl("authenticate"), user, JwtResponse.class).getStatusCode(),
 				HttpStatus.OK);
 	}
 

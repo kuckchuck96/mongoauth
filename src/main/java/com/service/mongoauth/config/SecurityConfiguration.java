@@ -52,9 +52,9 @@ public class SecurityConfiguration {
 		authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
 		AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-		http.csrf().disable().authorizeRequests().antMatchers("/authenticate", "/user/createUser").permitAll()
-				.anyRequest().authenticated().and().authenticationManager(authenticationManager).exceptionHandling()
-				.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+		http.csrf().disable().authorizeRequests().antMatchers("/authenticate", "/user/createUser", "/actuator/*")
+				.permitAll().anyRequest().authenticated().and().authenticationManager(authenticationManager)
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		// Add a filter to validate the tokens with every request
