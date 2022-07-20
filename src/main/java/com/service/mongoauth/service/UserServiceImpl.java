@@ -1,8 +1,11 @@
 package com.service.mongoauth.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +59,14 @@ public class UserServiceImpl implements UserService {
 					LOGGER.info(String.format("Total users removed: %d.", users.size()));
 					userRepository.deleteAll(users);
 				});
+	}
+
+	@Override
+	public List<User> getUsersByName(String keyword) throws Exception {
+		if (StringUtils.isNotBlank(keyword)) {
+			return userRepository.findUsersByRegexpName(keyword);
+		}
+		return new ArrayList<>();
 	}
 
 }
