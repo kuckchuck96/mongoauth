@@ -64,7 +64,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUsersByName(String keyword) throws Exception {
 		if (StringUtils.isNotBlank(keyword)) {
-			return userRepository.findUsersByRegexpName(keyword);
+			List<User> searchedList = userRepository.findUsersByRegexpName(keyword);
+			LOGGER.info(String.format("Total searched appearences for \"%s\": %d", keyword, searchedList.size()));
+			return searchedList;
 		}
 		return new ArrayList<>();
 	}
