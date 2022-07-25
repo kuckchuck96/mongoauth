@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.service.mongoauth.annotation.CronTraceable;
 import com.service.mongoauth.service.UserService;
 
 @Component
@@ -17,14 +18,13 @@ public class MongoAuthScheduler {
 	private UserService userService;
 
 	@Scheduled(cron = "${cron.exp.remusers}")
-	private void removedOldUnVerifiedUsers() {
-		LOGGER.info("***** Started removing unverified and old users *****");
+	@CronTraceable(name = "RemoveOldUnverifiedUsers")
+	protected void removedOldUnVerifiedUsers() {
 		try {
 			userService.removeUnverifiedOldUsers();
 		} catch (Exception ex) {
 			LOGGER.error("Unable to execute cron.", ex);
 		}
-		LOGGER.info("***** Ended removing unverified and old users *****");
 	}
 
 }
