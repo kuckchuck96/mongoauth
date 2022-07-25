@@ -19,4 +19,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 	@Query("{ isVerified: false, updatedAt: { '$lt': ?0 } }")
 	List<User> findByisVerifiedAndUpdatedAt(LocalDateTime lessThan);
 
+	@Query("{ 'name' : { $regex: ?0, '$options' : 'i' } }")
+	List<User> findUsersByRegexpName(String regexp);
+
 }
