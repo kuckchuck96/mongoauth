@@ -9,19 +9,14 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Component
 public class MongoAuthConfiguration {
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
-	@Bean
-	public ValidatingMongoEventListener validatingMongoEventListener() {
-		return new ValidatingMongoEventListener(validator());
-	}
-
-	@Bean
-	public LocalValidatorFactoryBean validator() {
-		return new LocalValidatorFactoryBean();
-	}
+    @Bean
+    public ValidatingMongoEventListener validatingMongoEventListener(LocalValidatorFactoryBean factory) {
+        return new ValidatingMongoEventListener(factory);
+    }
 
 }
